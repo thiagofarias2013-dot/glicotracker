@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlicoTracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Importação do Chart.js para os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Controle Glicêmico</h1>
+        
+        <form id="registro-form" class="card">
+            <div class="input-group">
+                <label for="valor">Índice Glicêmico (mg/dL)</label>
+                <input type="number" id="valor" placeholder="Ex: 105" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="periodo">Período</label>
+                <select id="periodo" required>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                </select>
+            </div>
+
+            <!-- Campos para Data e Hora Retroativas -->
+            <div class="input-group" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label for="data">Data</label>
+                    <input type="date" id="data" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="hora">Hora</label>
+                    <input type="time" id="hora" required>
+                </div>
+            </div>
+            
+            <button type="submit">Registrar Valor</button>
+        </form>
+
+        <h2>Médias do Dia</h2>
+        <div class="dashboard">
+            <div class="dash-card">
+                <span>Manhã</span>
+                <strong id="media-manha">--</strong>
+            </div>
+            <div class="dash-card">
+                <span>Tarde</span>
+                <strong id="media-tarde">--</strong>
+            </div>
+            <div class="dash-card">
+                <span>Noite</span>
+                <strong id="media-noite">--</strong>
+            </div>
+        </div>
+
+        <h2>Evolução Visual</h2>
+        <div class="card">
+            <canvas id="graficoGlicemia"></canvas>
+        </div>
+
+        <!-- Barra de Ferramentas: Filtros e Exportação -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; margin-top: 20px;">
+            <h2 style="margin: 0;">Histórico Recente</h2>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <select id="filtro-data" style="padding: 8px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 0.9rem;">
+                    <option value="7">Últimos 7 dias</option>
+                    <option value="30">Últimos 30 dias</option>
+                    <option value="todos">Todo Histórico</option>
+                </select>
+
+                <select id="filtro-periodo" style="padding: 8px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 0.9rem;">
+                    <option value="todos">Todos os Períodos</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                </select>
+                <button id="btn-exportar" style="background-color: #10b981; width: auto; padding: 8px 16px; font-size: 0.9rem;">⬇️ Exportar CSV</button>
+            </div>
+        </div>
+        
+        <ul id="historico" class="historico-list"></ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
