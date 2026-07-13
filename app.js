@@ -49,20 +49,24 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let filtrados = [...registros].reverse();
         
+        // Aplica filtro de Período
         if (filtroPeriodo !== 'todos') {
             filtrados = filtrados.filter(r => r.periodo === filtroPeriodo);
         }
         
+        // Aplica filtro de Data
         if (filtroData !== 'todos') {
             const diasLimite = parseInt(filtroData);
             const hoje = new Date();
-            hoje.setHours(0, 0, 0, 0); 
+            hoje.setHours(0, 0, 0, 0);
             
             filtrados = filtrados.filter(r => {
                 const partes = r.data.split('/');
                 const dataReg = new Date(`${partes[2]}-${partes[1]}-${partes[0]}T00:00:00`);
                 const diffTempo = hoje.getTime() - dataReg.getTime();
-                const diffDias = Math.ceil(diffTempo / (1000 * 60 * 60 * 24));
+                const diffDias = Math.floor(diffTempo / (1000 * 60 * 60 * 24));
+                
+                // Agora o limite será o valor selecionado (7, 30 ou 365)
                 return diffDias <= diasLimite;
             });
         }
